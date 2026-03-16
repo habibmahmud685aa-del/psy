@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Психологическое исследование — Османова Хадиджа</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #FBF7F2;
+  --brown: #3D2E22;
+  --accent: #B08968;
+  --accent-light: #D4A574;
+  --sage: #7A8F7E;
+  --warm: #7A6B62;
+  --muted: #9E8E82;
+  --light-muted: #B5A99C;
+  --card: rgba(255,255,255,0.5);
+  --card-border: rgba(176,137,104,0.08);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--brown);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Grain */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.02;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 128px;
+}
+
+.bg-blobs {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden;
+}
+.bg-blobs .b {
+  position: absolute; border-radius: 50%; filter: blur(90px);
+}
+.b1 { width: 500px; height: 500px; background: rgba(176,137,104,0.07); top: -120px; right: -120px; animation: drift 22s ease-in-out infinite; }
+.b2 { width: 380px; height: 380px; background: rgba(122,143,126,0.06); bottom: 15%; left: -80px; animation: drift 28s ease-in-out infinite reverse; }
+.b3 { width: 280px; height: 280px; background: rgba(176,137,104,0.05); top: 55%; right: 8%; animation: drift 18s ease-in-out infinite 4s; }
+
+@keyframes drift {
+  0%,100% { transform: translate(0,0) scale(1); }
+  33% { transform: translate(25px,-35px) scale(1.04); }
+  66% { transform: translate(-18px,18px) scale(0.97); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.3); }
+}
+
+/* Header */
+.top-bar {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(251,247,242,0.92); backdrop-filter: blur(24px);
+  border-bottom: 1px solid var(--card-border);
+  padding: 14px 24px;
+  display: none; /* shown via JS */
+  justify-content: space-between; align-items: center;
+}
+.top-bar.visible { display: flex; }
+.top-logo {
+  font-family: 'DM Serif Display', serif; font-size: 1rem; color: var(--brown);
+}
+.top-logo span { color: var(--accent); }
+.top-progress-wrap {
+  display: flex; align-items: center; gap: 10px;
+}
+.top-progress-label { font-size: 0.78rem; color: var(--muted); }
+.top-progress-track {
+  width: 90px; height: 4px; background: rgba(176,137,104,0.12); border-radius: 100; overflow: hidden;
+}
+.top-progress-fill {
+  height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-light));
+  border-radius: 100; transition: width 0.5s cubic-bezier(.4,0,.2,1);
+}
+.top-progress-pct { font-size: 0.78rem; color: var(--accent); font-weight: 600; }
+
+/* Container */
+.container {
+  max-width: 700px; margin: 0 auto; padding: 32px 20px 120px; position: relative; z-index: 1;
+}
+
+/* Section progress */
+.sec-progress { margin-bottom: 28px; }
+.sec-progress-top {
+  display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;
+}
+.sec-progress-name {
+  font-size: 0.75rem; font-weight: 600; color: var(--accent);
+  letter-spacing: 0.1em; text-transform: uppercase;
+}
+.sec-progress-pct { font-size: 0.8rem; color: var(--muted); }
+.sec-progress-track {
+  height: 4px; background: rgba(176,137,104,0.12); border-radius: 100; overflow: hidden;
+}
+.sec-progress-fill {
+  height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-light));
+  border-radius: 100; transition: width 0.5s cubic-bezier(.4,0,.2,1);
+}
+
+/* Titles */
+h1.hero-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(2rem, 5vw, 2.8rem);
+  color: var(--brown); line-height: 1.15; margin-bottom: 20px;
+}
+h1.hero-title em { color: var(--accent); font-style: italic; }
+h2.sec-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.55rem; color: var(--brown); margin-bottom: 8px;
+}
+.sec-subtitle {
+  color: var(--muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 28px;
+}
+
+/* Badge */
+.badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(176,137,104,0.08); border: 1px solid rgba(176,137,104,0.15);
+  padding: 6px 16px; border-radius: 100;
+  font-size: 0.74rem; font-weight: 600; color: var(--accent);
+  letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 24px;
+}
+.badge-dot {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+  animation: pulse 2s infinite;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  border: none; border-radius: 100; font-family: 'DM Sans', sans-serif;
+  font-weight: 500; cursor: pointer; transition: all 0.3s;
+  text-decoration: none;
+}
+.btn:hover { transform: translateY(-1px); }
+.btn-primary {
+  background: var(--brown); color: var(--cream);
+  padding: 16px 40px; font-size: 1rem;
+  box-shadow: 0 8px 24px rgba(61,46,34,0.15);
+}
+.btn-primary:hover { box-shadow: 0 12px 32px rgba(61,46,34,0.22); }
+.btn-accent {
+  background: var(--accent); color: #fff;
+  padding: 12px 24px; font-size: 0.88rem;
+}
+.btn-outline {
+  background: none; border: 1.5px solid rgba(176,137,104,0.25);
+  color: var(--accent); padding: 12px 28px; font-size: 0.9rem;
+}
+.btn-ghost {
+  background: none; border: none; color: var(--accent);
+  font-size: 0.82rem; padding: 8px 16px; border-radius: 8px;
+}
+.btn-ghost:hover { background: rgba(176,137,104,0.06); }
+.btn-nav {
+  padding: 12px 24px; font-size: 0.88rem; border-radius: 100;
+}
+.btn-back {
+  background: none; border: 1.5px solid rgba(176,137,104,0.2);
+  color: var(--warm);
+}
+.btn-next {
+  background: var(--brown); color: var(--cream);
+  box-shadow: 0 4px 16px rgba(61,46,34,0.12);
+}
+
+/* Bottom bar */
+.bottom-bar {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 50;
+  background: rgba(251,247,242,0.95); backdrop-filter: blur(20px);
+  border-top: 1px solid var(--card-border);
+  padding: 14px 24px; display: none; justify-content: space-between; align-items: center;
+}
+.bottom-bar.visible { display: flex; }
+
+/* Cards */
+.q-card {
+  padding: 20px 24px; background: var(--card); border-radius: 16px;
+  border: 1.5px solid var(--card-border); margin-bottom: 16px;
+  transition: border-color 0.3s;
+}
+.q-card.error { border-color: rgba(200,80,80,0.3); }
+.q-card label.q-label {
+  display: block; font-size: 0.92rem; font-weight: 500;
+  color: var(--brown); margin-bottom: 12px;
+}
+.q-label .req { color: var(--accent); }
+
+/* Text input */
+.text-input {
+  width: 100%; padding: 14px 18px; border-radius: 12px;
+  border: 1.5px solid rgba(176,137,104,0.2);
+  background: rgba(250,245,238,0.6);
+  font-family: 'DM Sans', sans-serif; font-size: 0.95rem;
+  color: var(--brown); outline: none; transition: border-color 0.3s;
+}
+.text-input:focus { border-color: var(--accent); }
+.text-input::placeholder { color: var(--light-muted); }
+
+/* Radio group */
+.radio-group {
+  display: grid; gap: 8px;
+}
+.radio-group.cols-2 { grid-template-columns: 1fr 1fr; }
+.radio-group.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+.radio-group.cols-5 { grid-template-columns: repeat(5, 1fr); }
+
+.radio-opt {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 16px; border-radius: 12px; cursor: pointer;
+  transition: all 0.25s;
+  background: rgba(250,245,238,0.6);
+  border: 1.5px solid rgba(176,137,104,0.12);
+  font-size: 0.92rem; color: var(--warm);
+}
+.radio-opt:hover { border-color: rgba(176,137,104,0.25); }
+.radio-opt.selected {
+  background: rgba(176,137,104,0.1);
+  border-color: var(--accent); color: #5C4033;
+}
+.radio-opt input { display: none; }
+.radio-dot {
+  width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0;
+  border: 2px solid rgba(176,137,104,0.3);
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.radio-opt.selected .radio-dot {
+  border-color: var(--accent);
+}
+.radio-dot-inner {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--accent); transform: scale(0);
+  transition: transform 0.2s;
+}
+.radio-opt.selected .radio-dot-inner { transform: scale(1); }
+
+/* Likert question */
+.likert-card {
+  padding: 22px 24px; border-radius: 16px;
+  background: var(--card); backdrop-filter: blur(10px);
+  border: 1px solid var(--card-border);
+  margin-bottom: 14px; transition: all 0.3s;
+}
+.likert-card.error { border-color: rgba(200,80,80,0.25); }
+.likert-text {
+  font-size: 0.94rem; color: var(--brown); line-height: 1.6; margin-bottom: 14px;
+}
+.likert-text .num { font-weight: 700; color: var(--accent); margin-right: 6px; }
+.likert-options {
+  display: flex; flex-wrap: wrap; gap: 6px;
+}
+.likert-opt {
+  padding: 7px 14px; border-radius: 100; cursor: pointer;
+  transition: all 0.2s;
+  background: rgba(176,137,104,0.05);
+  border: 1.5px solid rgba(176,137,104,0.12);
+  color: var(--warm); font-size: 0.8rem; white-space: nowrap;
+  font-family: 'DM Sans', sans-serif;
+}
+.likert-opt:hover { border-color: rgba(176,137,104,0.3); }
+.likert-opt.selected {
+  background: var(--accent); border-color: var(--accent);
+  color: #fff; font-weight: 600;
+}
+.likert-opt input { display: none; }
+
+/* Error banner */
+.error-banner {
+  padding: 12px 16px; background: rgba(200,80,80,0.08);
+  border: 1px solid rgba(200,80,80,0.2); border-radius: 12px;
+  margin-bottom: 20px; font-size: 0.85rem; color: #c85050;
+  display: none;
+}
+.error-banner.visible { display: block; }
+
+/* Admin panel */
+.admin-panel {
+  margin-top: 20px; padding: 24px; background: rgba(255,255,255,0.6);
+  border-radius: 16px; border: 1px solid rgba(176,137,104,0.1);
+  max-width: 360px; margin-left: auto; margin-right: auto;
+  display: none;
+}
+.admin-panel.visible { display: block; }
+.admin-count { font-size: 0.85rem; color: var(--warm); margin-bottom: 12px; }
+.admin-count strong { color: var(--accent); }
+
+/* Done */
+.done-icon {
+  width: 72px; height: 72px; border-radius: 50%;
+  background: rgba(122,143,126,0.12);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 28px; color: var(--sage);
+}
+
+/* Section container */
+.section { display: none; }
+.section.active { display: block; animation: fadeUp 0.5s ease; }
+
+/* Responsive */
+@media (max-width: 600px) {
+  .radio-group.cols-3 { grid-template-columns: 1fr 1fr; }
+  .radio-group.cols-5 { grid-template-columns: 1fr; }
+  .likert-options { flex-direction: column; }
+  .likert-opt { text-align: center; }
+  .container { padding: 24px 16px 120px; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-blobs">
+  <div class="b b1"></div>
+  <div class="b b2"></div>
+  <div class="b b3"></div>
+</div>
+
+<!-- Top bar -->
+<div class="top-bar" id="topBar">
+  <div class="top-logo">Османова <span>Х.</span></div>
+  <div class="top-progress-wrap">
+    <span class="top-progress-label">Прогресс</span>
+    <div class="top-progress-track"><div class="top-progress-fill" id="topFill"></div></div>
+    <span class="top-progress-pct" id="topPct">0%</span>
+  </div>
+</div>
+
+<!-- Content -->
+<div class="container">
+
+  <!-- ===== INTRO ===== -->
+  <div class="section active" id="sec-intro" style="text-align:center; padding-top:60px;">
+    <div style="width:64px;height:64px;border-radius:20px;background:rgba(176,137,104,0.1);display:flex;align-items:center;justify-content:center;margin:0 auto 28px;color:var(--accent);">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2C9.2 2 7 4.2 7 7c0 1.5.7 2.9 1.7 3.9C7.1 12.3 6 14 6 16c0 2.8 2.2 5 5 5h2c2.8 0 5-2.2 5-5 0-2-1.1-3.7-2.7-5.1C16.3 9.9 17 8.5 17 7c0-2.8-2.2-5-5-5z"/><path d="M12 2v19"/></svg>
+    </div>
+    <div class="badge"><div class="badge-dot"></div> Исследование открыто</div>
+    <h1 class="hero-title">Психологические<br>особенности <em>студентов</em></h1>
+    <p style="color:var(--warm);line-height:1.8;font-size:0.98rem;max-width:540px;margin:0 auto 16px;font-weight:300;">
+      Приглашаем вас принять участие в психологическом исследовании, посвящённом изучению психологических особенностей работающих и неработающих студентов.
+    </p>
+    <p style="color:var(--muted);line-height:1.7;font-size:0.87rem;max-width:540px;margin:0 auto 40px;">
+      Исследование проводится в рамках научной работы. Опрос займёт около 15–20 минут. Просим отвечать честно. Все данные обрабатываются конфиденциально и используются только в научных целях.
+    </p>
+    <div style="display:flex;flex-direction:column;gap:14px;align-items:center;">
+      <button class="btn btn-primary" onclick="goTo('general')">
+        Начать опрос
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </button>
+      <button class="btn btn-ghost" onclick="toggleAdmin()">Скачать результаты (для исследователя)</button>
+    </div>
+    <div class="admin-panel" id="adminPanel">
+      <p class="admin-count">Собрано ответов: <strong id="respCount">0</strong></p>
+      <div id="adminActions"></div>
+    </div>
+    <p style="margin-top:48px;font-size:0.78rem;color:var(--light-muted);">Исследователь: Османова Хадиджа · 2026</p>
+  </div>
+
+  <!-- ===== GENERAL ===== -->
+  <div class="section" id="sec-general">
+    <div class="sec-progress">
+      <div class="sec-progress-top">
+        <span class="sec-progress-name">Общие вопросы</span>
+        <span class="sec-progress-pct" id="genPct">0%</span>
+      </div>
+      <div class="sec-progress-track"><div class="sec-progress-fill" id="genFill"></div></div>
+    </div>
+    <h2 class="sec-title">Общие вопросы</h2>
+    <p class="sec-subtitle">Расскажите немного о себе</p>
+    <div class="error-banner" id="genError">Пожалуйста, ответьте на все вопросы</div>
+    <div id="genQuestions"></div>
+  </div>
+
+  <!-- ===== SHAM ===== -->
+  <div class="section" id="sec-sham">
+    <div class="sec-progress">
+      <div class="sec-progress-top">
+        <span class="sec-progress-name">ШАМ — Академическая мотивация</span>
+        <span class="sec-progress-pct" id="shamPct">0%</span>
+      </div>
+      <div class="sec-progress-track"><div class="sec-progress-fill" id="shamFill"></div></div>
+    </div>
+    <h2 class="sec-title">Шкала академической мотивации</h2>
+    <p class="sec-subtitle">Определите, насколько каждое утверждение соответствует вашим ощущениям. Не выходите из теста, он может слететь.</p>
+    <div class="error-banner" id="shamError"></div>
+    <div id="shamQuestions"></div>
+  </div>
+
+  <!-- ===== OSD ===== -->
+  <div class="section" id="sec-osd">
+    <div class="sec-progress">
+      <div class="sec-progress-top">
+        <span class="sec-progress-name">ОСД — Самоорганизация</span>
+        <span class="sec-progress-pct" id="osdPct">0%</span>
+      </div>
+      <div class="sec-progress-track"><div class="sec-progress-fill" id="osdFill"></div></div>
+    </div>
+    <h2 class="sec-title">Самоорганизация (ОСД)</h2>
+    <p class="sec-subtitle">Этот тест позволит лучше узнать особенности вашей самоорганизации.</p>
+    <div class="error-banner" id="osdError"></div>
+    <div id="osdQuestions"></div>
+  </div>
+
+  <!-- ===== ORUDS ===== -->
+  <div class="section" id="sec-oruds">
+    <div class="sec-progress">
+      <div class="sec-progress-top">
+        <span class="sec-progress-name">ОРУДС — Осознанная регуляция</span>
+        <span class="sec-progress-pct" id="orudsPct">0%</span>
+      </div>
+      <div class="sec-progress-track"><div class="sec-progress-fill" id="orudsFill"></div></div>
+    </div>
+    <h2 class="sec-title">Осознанная регуляция учебной деятельности</h2>
+    <p class="sec-subtitle">Почти финиш! Этот тест позволит понять осознанность в обучении. Не выходите из теста, он может слететь.</p>
+    <div class="error-banner" id="orudsError"></div>
+    <div id="orudsQuestions"></div>
+  </div>
+
+  <!-- ===== DONE ===== -->
+  <div class="section" id="sec-done" style="text-align:center;padding-top:80px;">
+    <div class="done-icon">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <h2 style="font-family:'DM Serif Display',serif;font-size:2rem;color:var(--brown);margin-bottom:12px;">Спасибо за участие!</h2>
+    <p style="color:var(--warm);font-size:1rem;line-height:1.8;max-width:460px;margin:0 auto 20px;">
+      Ваши ответы успешно сохранены. Они будут использованы исключительно в научных целях.
+    </p>
+    <p style="color:var(--muted);font-size:0.88rem;margin-bottom:48px;">Благодарим вас за вклад в исследование!</p>
+    <button class="btn btn-outline" onclick="resetAndGoHome()">На главную</button>
+    <p style="margin-top:48px;font-size:0.78rem;color:var(--light-muted);">Исследователь: Османова Хадиджа · 2026</p>
+  </div>
+
+</div>
+
+<!-- Bottom bar -->
+<div class="bottom-bar" id="bottomBar">
+  <button class="btn btn-nav btn-back" id="btnBack" onclick="goPrev()">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform:rotate(180deg)"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    Назад
+  </button>
+  <button class="btn btn-nav btn-next" id="btnNext" onclick="goNext()">
+    <span id="btnNextText">Далее</span>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+  </button>
+</div>
+
+<script>
+// ==================== DATA ====================
+const SECTIONS = ['intro','general','sham','osd','oruds','done'];
+let currentSection = 'intro';
+let responses = [];
+
+const GENERAL_QS = [
+  {id:'name',label:'Ваше имя (псевдоним)?',type:'text'},
+  {id:'age',label:'Ваш возраст?',type:'text'},
+  {id:'gender',label:'Пол',type:'radio',options:['жен','муж'],cols:2},
+  {id:'education',label:'Ваш уровень образования?',type:'radio',options:['бакалавриат','магистратура','специалитет'],cols:3},
+  {id:'course',label:'Курс',type:'radio',options:['1','2','3','4','5'],cols:5},
+  {id:'working',label:'Вы работаете (подрабатываете)?',type:'radio',options:['да','нет'],cols:2},
+  {id:'work_match',label:'Ваша работа/подработка соответствует Вашей специальности?',type:'radio',options:['да','нет','частично','не работаю'],cols:2},
+  {id:'city',label:'В каком городе живёте?',type:'text'},
+];
+
+const SHAM_ITEMS = [
+  "Мне интересно учиться.",
+  "Учёба доставляет мне удовольствие, я люблю решать трудные задачи.",
+  "Потому что я получаю удовольствие, превосходя самого себя в учебных достижениях.",
+  "Потому что я хочу доказать самому(ой) себе, что я способен(на) успешно учиться в университете.",
+  "Потому что мне стыдно плохо учиться.",
+  "У меня нет другого выбора, так как посещаемость отмечается.",
+  "Честно говоря, не знаю, мне кажется, что я здесь просто теряю время.",
+  "Мне нравится учиться, потому что это интересно.",
+  "Я чувствую удовлетворение, когда нахожусь в процессе решения сложных учебных задач.",
+  "Учеба дает мне возможность почувствовать удовлетворение в моем совершенствовании.",
+  "Потому что, когда я хорошо учусь, я чувствую себя значимым человеком.",
+  "Потому что совесть заставляет меня учиться.",
+  "Чтобы избежать проблем с деканатом и сессией.",
+  "Раньше я понимал(а), зачем учусь, а теперь не уверен(а), стоит ли продолжать.",
+  "Мне просто нравится учиться и узнавать новое.",
+  "Мне нравится решать трудные задачи и прикладывать интеллектуальные усилия.",
+  "Ради удовольствия, которое приносит мне достижение новых успехов в учебе.",
+  "Чтобы доказать самому(ой) себе, что я умный человек.",
+  "Потому что учиться – это моя обязанность, которой я не могу пренебречь.",
+  "Потому что близкие меня будут осуждать, если я стану плохо учиться.",
+  "Ходить-то я хожу, но не уверен(а), что мне это действительно надо.",
+  "Я действительно получаю удовольствие от изучения нового материала на занятиях.",
+  "Я просто люблю учиться, решать сложные задачи и чувствовать себя компетентным(ой).",
+  "Мне приятно осознавать, как растет моя компетентность и мои знания.",
+  "Потому что я хочу показать самому себе, что я могу быть успешным(ой) в учебе.",
+  "Потому что, поступив в университет, я должен посещать занятия и учиться.",
+  "У меня нет выбора, иначе я не смогу в будущем иметь достаточно обеспеченную жизнь.",
+  "Хожу по привычке, зачем, откровенно говоря, точно не знаю.",
+];
+const SHAM_OPTS = ["совсем не соответствует","скорее не соответствует","нечто среднее","скорее соответствует","вполне соответствует"];
+
+const OSD_ITEMS = [
+  "Мне требуется много времени, чтобы «раскачаться» и начать действовать",
+  "Я планирую мои дела ежедневно",
+  "Меня выводят из себя и выбивают из привычного графика непредвиденные дела",
+  "Обычно я намечаю программу на день и стараюсь ее выполнить",
+  "Мне бывает трудно завершить начатое",
+  "Я не могу отказаться от начатого дела, даже если оно мне «не по зубам»",
+  "Я знаю, чего хочу, и делаю все, чтобы этого добиться",
+  "Я заранее выстраиваю план предстоящего дня",
+  "Мне более важно то, что я делаю и переживаю в данный момент, а не то, что будет или было",
+  "Я могу начать делать несколько дел и ни одно из них не закончить",
+  "Я планирую мои повседневные дела согласно определенным принципам",
+  "Я считаю себя человеком, живущим «здесь и сейчас»",
+  "Я не могу перейти к другому делу, если не завершил предыдущего",
+  "Я считаю себя целенаправленным человеком",
+  "Вместо того чтобы заниматься делами, я часто попусту трачу время",
+  "Мне нравится вести дневник и фиксировать в нем происходящее со мной",
+  "Иногда я даже не могу заснуть, вспомнив о недоделанных делах",
+  "У меня есть к чему стремиться",
+  "Мне нравится пользоваться ежедневником и иными средствами планирования времени",
+  "Моя жизнь направлена на достижение определенных результатов",
+  "У меня бывают трудности с упорядочением моих дел",
+  "Мне нравится писать отчеты по итогам работы",
+  "Я ни к чему не стремлюсь",
+  "Если я не закончил какое-то дело, то это не выходит у меня из головы",
+  "У меня есть главная цель в жизни",
+];
+const OSD_OPTS = ["Полностью не согласен","Не согласен","Кое в чем не согласен","Ни то, ни другое","Кое в чем согласен","Согласен","Полностью согласен"];
+
+const ORUDS_ITEMS = [
+  "Я хорошо понимаю, зачем учусь в вузе",
+  "Обычно я с самого начала четко представляю будущий результат своей учебной работы.",
+  "Я хорошо понимаю, в каких условиях учусь",
+  "Как правило, я предвижу не только близкие, но и отдаленные последствия своих действий в учебе",
+  "Я не утруждаю себя планированием своей учебной деятельности.",
+  "При подготовке к занятиям я определяю, в какой последовательности изучать материал.",
+  "Я внимательно отслеживаю ход своей учебы на всех ее этапах.",
+  "У меня нет точных ориентиров, которые бы позволяли мне оценивать свою учебу",
+  "Необходимые изменения в учебную деятельность я всегда вношу своевременно.",
+  "Принимая решения в учебной деятельности, я не задумываюсь о целях учебы",
+  "Я могу дать конкретный ответ на вопрос «Ради чего я учусь?»",
+  "Мне трудно согласовать между собой цели моей учебы",
+  "Я часто не понимаю, как использовать сложившуюся ситуацию для достижения хороших результатов в учебе.",
+  "Обычно я хорошо представляю, как найти выход из сложной ситуации в учебе",
+  "Планируя свои учебные дела, я выстраиваю их в определенной последовательности.",
+  "Обычно я согласую между собой различные виды учебной работы",
+  "Я своевременно замечаю свои ошибки, допущенные при выполнении учебных заданий.",
+  "Свои достижения в учебной деятельности я оцениваю в сопоставлении с моими целями учебы в вузе",
+  "Часто я не могу самостоятельно изменить что-либо в учебной работе",
+  "Важные решения, касающиеся учебной деятельности, я принимаю только в том случае, если вижу их последствия.",
+  "Я не задумываюсь над вопросом: «Чего я хочу достичь, учась в вузе?»",
+  "Четкое следование поставленным целям в учебе – это не для меня.",
+  "Я хорошо понимаю, что в моей жизни способствует, а что мешает учебе.",
+  "Обычно я предвижу последствия своих действий в учебе.",
+  "Планируя учебу, я забочусь о том, чтобы мои учебные дела не мешали друг другу.",
+  "Готовясь к занятиям, я не задумаюсь над тем, как буду отвечать.",
+  "Мне трудно самостоятельно проконтролировать, достигнут ли необходимый уровень подготовки к занятиям",
+  "Свои достижения в учебе я оцениваю без ссылок на условия обучения.",
+  "Когда я замечаю даже незначительные неполадки в учебе, то немедленно вношу изменения.",
+  "Как правило, я не раздумываю при принятии решений в учебе.",
+  "Не сомневаюсь, что учеба в вузе – это важный этап в моей жизни.",
+  "Все цели, к которым я стремлюсь в учебной деятельности, я подразделяю на главные и второстепенные.",
+  "Мне трудно разобраться в том, какие достижения в учебе мне «по плечу».",
+  "Обычно мне не удается предвидеть больше одного варианта достижения учебных целей",
+  "Мои планы в учебе учитывают условия, в которых приходится учиться.",
+  "При подготовке к занятиям я предварительно определяю, сколько времени мне понадобится на изучение того или иного вопроса.",
+  "Сравнивать свои результаты в учебе с тем, что было запланировано, не имеет смысла.",
+  "Моя оценка собственных достижений в учебе часто совпадает с их оценкой преподавателями.",
+  "Выполняя учебные задания, я обычно дополняю и исправляю их до тех пор, пока не добьюсь желаемого результата",
+  "Решения, которые я принимаю относительно учебы, всегда согласуются между собой.",
+];
+const ORUDS_OPTS = ["абсолютно верно","пожалуй, верно","пожалуй, неверно","абсолютно неверно"];
+
+// ==================== STATE ====================
+let answers = { general: {}, sham: {}, osd: {}, oruds: {} };
+
+// ==================== STORAGE ====================
+const STORE_KEY = 'osmanova_survey_responses';
+
+function loadResponses() {
+  try {
+    const d = localStorage.getItem(STORE_KEY);
+    if (d) responses = JSON.parse(d);
+  } catch(e) {}
+  updateAdmin();
+}
+
+function saveResponses() {
+  try {
+    localStorage.setItem(STORE_KEY, JSON.stringify(responses));
+  } catch(e) {}
+  updateAdmin();
+}
+
+// ==================== RENDERING ====================
+function buildGeneral() {
+  const wrap = document.getElementById('genQuestions');
+  wrap.innerHTML = '';
+  GENERAL_QS.forEach(q => {
+    const card = document.createElement('div');
+    card.className = 'q-card';
+    card.id = 'card-' + q.id;
+    let inner = `<label class="q-label">${q.label} <span class="req">*</span></label>`;
+    if (q.type === 'text') {
+      inner += `<input class="text-input" type="text" placeholder="Введите ответ..." data-id="${q.id}" oninput="setGeneral('${q.id}',this.value)">`;
+    } else {
+      const colClass = q.cols ? 'cols-' + q.cols : '';
+      inner += `<div class="radio-group ${colClass}">`;
+      q.options.forEach(opt => {
+        inner += `<label class="radio-opt" data-name="${q.id}" data-val="${opt}" onclick="setGeneralRadio('${q.id}','${opt}',this)">
+          <div class="radio-dot"><div class="radio-dot-inner"></div></div>
+          <input type="radio" name="gen_${q.id}" value="${opt}">
+          ${opt}
+        </label>`;
+      });
+      inner += `</div>`;
+    }
+    card.innerHTML = inner;
+    wrap.appendChild(card);
+  });
+}
+
+function buildLikert(containerId, items, options, prefix) {
+  const wrap = document.getElementById(containerId);
+  wrap.innerHTML = '';
+  items.forEach((text, i) => {
+    const card = document.createElement('div');
+    card.className = 'likert-card';
+    card.id = `${prefix}-card-${i}`;
+    let inner = `<p class="likert-text"><span class="num">${i+1}.</span>${text}</p><div class="likert-options">`;
+    options.forEach(opt => {
+      inner += `<label class="likert-opt" data-name="${prefix}_${i}" data-val="${opt}" onclick="setLikert('${prefix}','${prefix}_${i}','${opt.replace(/'/g,"\\'")}',this)">
+        <input type="radio" name="${prefix}_${i}" value="${opt}">
+        ${opt}
+      </label>`;
+    });
+    inner += `</div>`;
+    card.innerHTML = inner;
+    wrap.appendChild(card);
+  });
+}
+
+function setGeneral(id, val) {
+  answers.general[id] = val;
+  document.getElementById('card-' + id).classList.remove('error');
+  updateProgress();
+}
+
+function setGeneralRadio(id, val, el) {
+  answers.general[id] = val;
+  // Deselect siblings
+  el.parentElement.querySelectorAll('.radio-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('card-' + id).classList.remove('error');
+  updateProgress();
+}
+
+function setLikert(section, name, val, el) {
+  answers[section][name] = val;
+  // Deselect siblings
+  el.parentElement.querySelectorAll('.likert-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  const cardId = section + '-card-' + name.split('_').pop();
+  document.getElementById(cardId)?.classList.remove('error');
+  updateProgress();
+}
+
+// ==================== NAVIGATION ====================
+function goTo(sec) {
+  currentSection = sec;
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById('sec-' + sec).classList.add('active');
+
+  const isForm = ['general','sham','osd','oruds'].includes(sec);
+  document.getElementById('topBar').classList.toggle('visible', isForm);
+  document.getElementById('bottomBar').classList.toggle('visible', isForm);
+  document.getElementById('btnNextText').textContent = sec === 'oruds' ? 'Завершить' : 'Далее';
+
+  window.scrollTo({top: 0, behavior: 'smooth'});
+  updateProgress();
+}
+
+function goNext() {
+  const idx = SECTIONS.indexOf(currentSection);
+  // Validate
+  if (currentSection === 'general') {
+    const missing = GENERAL_QS.filter(q => !answers.general[q.id] || answers.general[q.id].trim() === '');
+    if (missing.length) {
+      missing.forEach(q => document.getElementById('card-' + q.id).classList.add('error'));
+      document.getElementById('genError').classList.add('visible');
+      document.getElementById('genError').textContent = 'Пожалуйста, ответьте на все вопросы';
+      document.getElementById('card-' + missing[0].id).scrollIntoView({behavior:'smooth',block:'center'});
+      return;
+    }
+    document.getElementById('genError').classList.remove('visible');
+  }
+  if (currentSection === 'sham') {
+    const missing = SHAM_ITEMS.map((_,i) => `sham_${i}`).filter(k => !answers.sham[k]);
+    if (missing.length) {
+      missing.forEach(k => { const id = 'sham-card-' + k.split('_')[1]; document.getElementById(id)?.classList.add('error'); });
+      const el = document.getElementById('shamError');
+      el.classList.add('visible');
+      el.textContent = `Пожалуйста, ответьте на все ${missing.length} оставшихся вопросов`;
+      document.getElementById('sham-card-' + missing[0].split('_')[1])?.scrollIntoView({behavior:'smooth',block:'center'});
+      return;
+    }
+    document.getElementById('shamError').classList.remove('visible');
+  }
+  if (currentSection === 'osd') {
+    const missing = OSD_ITEMS.map((_,i) => `osd_${i}`).filter(k => !answers.osd[k]);
+    if (missing.length) {
+      missing.forEach(k => { const id = 'osd-card-' + k.split('_')[1]; document.getElementById(id)?.classList.add('error'); });
+      const el = document.getElementById('osdError');
+      el.classList.add('visible');
+      el.textContent = `Пожалуйста, ответьте на все ${missing.length} оставшихся вопросов`;
+      document.getElementById('osd-card-' + missing[0].split('_')[1])?.scrollIntoView({behavior:'smooth',block:'center'});
+      return;
+    }
+    document.getElementById('osdError').classList.remove('visible');
+  }
+  if (currentSection === 'oruds') {
+    const missing = ORUDS_ITEMS.map((_,i) => `oruds_${i}`).filter(k => !answers.oruds[k]);
+    if (missing.length) {
+      missing.forEach(k => { const id = 'oruds-card-' + k.split('_')[1]; document.getElementById(id)?.classList.add('error'); });
+      const el = document.getElementById('orudsError');
+      el.classList.add('visible');
+      el.textContent = `Пожалуйста, ответьте на все ${missing.length} оставшихся вопросов`;
+      document.getElementById('oruds-card-' + missing[0].split('_')[1])?.scrollIntoView({behavior:'smooth',block:'center'});
+      return;
+    }
+    document.getElementById('orudsError').classList.remove('visible');
+    // Save!
+    const entry = {
+      date: new Date().toLocaleString('ru-RU'),
+      general: {...answers.general},
+      sham: {...answers.sham},
+      osd: {...answers.osd},
+      oruds: {...answers.oruds},
+    };
+    responses.push(entry);
+    saveResponses();
+  }
+  if (idx < SECTIONS.length - 1) goTo(SECTIONS[idx + 1]);
+}
+
+function goPrev() {
+  const idx = SECTIONS.indexOf(currentSection);
+  if (idx > 1) goTo(SECTIONS[idx - 1]); // skip intro on back
+  else goTo('intro');
+}
+
+function resetAndGoHome() {
+  answers = { general: {}, sham: {}, osd: {}, oruds: {} };
+  // Reset UI
+  document.querySelectorAll('.radio-opt.selected').forEach(el => el.classList.remove('selected'));
+  document.querySelectorAll('.likert-opt.selected').forEach(el => el.classList.remove('selected'));
+  document.querySelectorAll('.text-input').forEach(el => el.value = '');
+  document.querySelectorAll('.error-banner').forEach(el => el.classList.remove('visible'));
+  document.querySelectorAll('.q-card.error, .likert-card.error').forEach(el => el.classList.remove('error'));
+  goTo('intro');
+}
+
+// ==================== PROGRESS ====================
+function updateProgress() {
+  const genDone = GENERAL_QS.filter(q => answers.general[q.id] && answers.general[q.id].trim() !== '').length;
+  const shamDone = SHAM_ITEMS.filter((_,i) => answers.sham[`sham_${i}`]).length;
+  const osdDone = OSD_ITEMS.filter((_,i) => answers.osd[`osd_${i}`]).length;
+  const orudsDone = ORUDS_ITEMS.filter((_,i) => answers.oruds[`oruds_${i}`]).length;
+  const total = GENERAL_QS.length + SHAM_ITEMS.length + OSD_ITEMS.length + ORUDS_ITEMS.length;
+  const pct = Math.round(((genDone + shamDone + osdDone + orudsDone) / total) * 100);
+
+  document.getElementById('topFill').style.width = pct + '%';
+  document.getElementById('topPct').textContent = pct + '%';
+
+  const genP = Math.round((genDone / GENERAL_QS.length) * 100);
+  document.getElementById('genFill').style.width = genP + '%';
+  document.getElementById('genPct').textContent = genP + '%';
+
+  const shamP = Math.round((shamDone / SHAM_ITEMS.length) * 100);
+  document.getElementById('shamFill').style.width = shamP + '%';
+  document.getElementById('shamPct').textContent = shamP + '%';
+
+  const osdP = Math.round((osdDone / OSD_ITEMS.length) * 100);
+  document.getElementById('osdFill').style.width = osdP + '%';
+  document.getElementById('osdPct').textContent = osdP + '%';
+
+  const orudsP = Math.round((orudsDone / ORUDS_ITEMS.length) * 100);
+  document.getElementById('orudsFill').style.width = orudsP + '%';
+  document.getElementById('orudsPct').textContent = orudsP + '%';
+}
+
+// ==================== ADMIN / EXPORT ====================
+function toggleAdmin() {
+  document.getElementById('adminPanel').classList.toggle('visible');
+}
+
+function updateAdmin() {
+  document.getElementById('respCount').textContent = responses.length;
+  const wrap = document.getElementById('adminActions');
+  if (responses.length > 0) {
+    wrap.innerHTML = `<button class="btn btn-accent" onclick="downloadXLS()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Скачать .xls
+    </button>
+    <button class="btn btn-ghost" style="margin-top:8px;display:block;width:100%;text-align:center;" onclick="clearData()">Очистить данные</button>`;
+  } else {
+    wrap.innerHTML = '<p style="font-size:0.82rem;color:var(--muted);">Ответов пока нет</p>';
+  }
+}
+
+function clearData() {
+  if (confirm('Вы уверены? Все собранные ответы будут удалены.')) {
+    responses = [];
+    saveResponses();
+  }
+}
+
+function escXml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function downloadXLS() {
+  const headers = [
+    'Дата','Имя','Возраст','Пол','Образование','Курс','Работает','Соответствие специальности','Город',
+    ...SHAM_ITEMS.map((_,i) => 'ШАМ_' + (i+1)),
+    ...OSD_ITEMS.map((_,i) => 'ОСД_' + (i+1)),
+    ...ORUDS_ITEMS.map((_,i) => 'ОРУДС_' + (i+1)),
+  ];
+
+  let xml = '<?xml version="1.0" encoding="UTF-8"?>\n<?mso-application progid="Excel.Sheet"?>\n';
+  xml += '<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">\n';
+  xml += '<Styles>';
+  xml += '<Style ss:ID="h"><Font ss:Bold="1" ss:Size="10" ss:FontName="Arial"/><Interior ss:Color="#F5E6D3" ss:Pattern="Solid"/><Alignment ss:Horizontal="Center" ss:WrapText="1"/></Style>';
+  xml += '<Style ss:ID="c"><Font ss:Size="9" ss:FontName="Arial"/><Alignment ss:WrapText="1"/></Style>';
+  xml += '</Styles>\n';
+  xml += '<Worksheet ss:Name="Ответы"><Table>\n';
+
+  // Column widths
+  headers.forEach((h, i) => {
+    const w = i < 9 ? 120 : 60;
+    xml += `<Column ss:Width="${w}"/>`;
+  });
+
+  // Header row
+  xml += '<Row ss:Height="30">';
+  headers.forEach(h => xml += `<Cell ss:StyleID="h"><Data ss:Type="String">${escXml(h)}</Data></Cell>`);
+  xml += '</Row>\n';
+
+  // Data
+  responses.forEach(r => {
+    xml += '<Row>';
+    const row = [
+      r.date || '',
+      r.general?.name||'', r.general?.age||'', r.general?.gender||'',
+      r.general?.education||'', r.general?.course||'', r.general?.working||'',
+      r.general?.work_match||'', r.general?.city||'',
+      ...SHAM_ITEMS.map((_,i) => r.sham?.['sham_'+i]||''),
+      ...OSD_ITEMS.map((_,i) => r.osd?.['osd_'+i]||''),
+      ...ORUDS_ITEMS.map((_,i) => r.oruds?.['oruds_'+i]||''),
+    ];
+    row.forEach(cell => xml += `<Cell ss:StyleID="c"><Data ss:Type="String">${escXml(cell)}</Data></Cell>`);
+    xml += '</Row>\n';
+  });
+
+  xml += '</Table></Worksheet></Workbook>';
+
+  const blob = new Blob([xml], {type:'application/vnd.ms-excel'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'survey_results_' + new Date().toISOString().slice(0,10) + '.xls';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// ==================== INIT ====================
+function init() {
+  loadResponses();
+  buildGeneral();
+  buildLikert('shamQuestions', SHAM_ITEMS, SHAM_OPTS, 'sham');
+  buildLikert('osdQuestions', OSD_ITEMS, OSD_OPTS, 'osd');
+  buildLikert('orudsQuestions', ORUDS_ITEMS, ORUDS_OPTS, 'oruds');
+  updateProgress();
+}
+
+init();
+</script>
+</body>
+</html>
